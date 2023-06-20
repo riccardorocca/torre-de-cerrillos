@@ -1,0 +1,204 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cerebro</title>
+
+  <!-- Insert this script -->
+  <script type="text/javascript" src="https://static.sketchfab.com/api/sketchfab-viewer-1.5.1.js"></script>
+</head>
+
+<body>
+  <iframe style="position:fixed; width:100%; height:100%; border:0" src="" id="api-frame" sandbox="allow-scripts allow-same-origin allow-popups allow-forms" allow="autoplay; fullscreen; vr" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+  <div class="buttons">
+    <button id="keyA">Torre</button>
+    <button id="keyB">Erosion</button>
+    <button id="keyC">Paisaje</button>
+    <button id="keyD">Escala</button>
+  </div>
+
+  <!-- Your new script -->
+  <script>
+    var model = 'f3f5b0fc730f4d01800f92078ba7b694',
+
+    // Buttons
+    buttonA = document.getElementById( 'keyA' ),
+    buttonB = document.getElementById( 'keyB' ),
+    buttonC = document.getElementById( 'keyC' ),
+    buttonD = document.getElementById( 'keyD' ),
+
+    // Variables
+    version = '1.7.1',
+    iframe = document.getElementById( 'api-frame' ),
+    client = new Sketchfab( version, iframe ),
+
+    error = function () {
+      console.error( 'Sketchfab API Error!' );
+    },
+
+    success = function( api ) {
+      api.start();
+      // Wait for viewer to be ready
+      api.addEventListener( 'viewerready', function() {
+        // Get the object nodes
+        api.getNodeMap( function ( err, nodes ) {
+          if ( !err ) {
+            for ( var prop in nodes ) {
+              if ( nodes.hasOwnProperty( prop ) ) {
+                //alert(nodes[prop].instanceID+" : "+nodes[prop].name+" : "+nodes[prop].nodeMask+" : "+nodes[prop].type+" : "+nodes[prop].localMatrix+" ; "+nodes[prop].worldMatrix);
+                if      ( nodes[ prop ].name === "tower" )                 { var node_tower = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "tower_land" )            { var node_tower_land = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "barrel_grid_decimate" )  { var node_barrel = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "landscape" )             { var node_landscape = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "zscale" )                { var node_zscale = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "zscale_text" )           { var node_zscale_text = nodes[prop].instanceID; }
+              }
+            }
+
+            if (node_tower & node_tower_land) {
+              buttonA.addEventListener( 'click', function() {
+                switch(buttonA.innerHTML) {
+                  case "Torre":
+                    buttonA.innerHTML = " Torre ";
+                    buttonA.style.backgroundColor = "#888888";
+                    api.hide(node_tower);
+                    api.hide(node_tower_land);
+                    break;
+                  case " Torre ":
+                    buttonA.innerHTML = "Torre";
+                    buttonA.style.backgroundColor = "#1caad9";
+                    api.show(node_tower);
+                    api.show(node_tower_land);
+                    break;
+                }
+              });
+            }
+
+            if (node_barrel) {
+              buttonB.addEventListener( 'click', function() {
+                switch(buttonB.innerHTML) {
+                  case "Erosion":
+                    buttonB.innerHTML = " Erosion ";
+                    buttonB.style.backgroundColor = "#888888";
+                    api.hide(node_barrel);
+                    break;
+                  case " Erosion ":
+                    buttonB.innerHTML = "Erosion";
+                    buttonB.style.backgroundColor = "#1caad9";
+                    api.show(node_barrel);
+                    break;
+                }
+              });
+            }
+
+            if (node_landscape) {
+              buttonC.addEventListener( 'click', function() {
+                switch(buttonC.innerHTML) {
+                  case "Paisaje":
+                    buttonC.innerHTML = " Paisaje ";
+                    buttonC.style.backgroundColor = "#888888";
+                    api.hide(node_landscape);
+                    break;
+                  case " Paisaje ":
+                    buttonC.innerHTML = "Paisaje";
+                    buttonC.style.backgroundColor = "#1caad9";
+                    api.show(node_landscape);
+                    break;
+                }
+              });
+            }
+
+
+            if (node_zscale & node_zscale_text) {
+              buttonD.addEventListener( 'click', function() {
+                switch(buttonD.innerHTML) {
+                  case "Escala":
+                    buttonD.innerHTML = " Escala ";
+                    buttonD.style.backgroundColor = "#888888";
+                    api.hide(node_zscale);
+                    api.hide(node_zscale_text);
+                    break;
+                  case " Escala ":
+                    buttonD.innerHTML = "Escala";
+                    buttonD.style.backgroundColor = "#1caad9";
+                    api.show(node_zscale);
+                    api.show(node_zscale_text);
+                    break;
+                }
+              });
+            }
+
+          }
+        });
+
+      });
+    };
+
+    // Load the model
+    client.init( model, {
+      success: success,
+      error: error,
+      ui_infos: 0,
+      ui_controls: 0,
+      ui_stop: 1,
+      watermark: 1,
+      supersample: 0
+    });
+
+  </script>
+
+  <!-- Lastly, some CSS -->
+  <style type="text/css">
+
+    body {
+      margin: 0;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    img {
+      width: 130px;
+      opacity: 0.8;
+    }
+
+    /* Button style */
+    .buttons {
+      margin: 35px 5px;
+      right: 0;
+      top: : 0;
+      z-index: 1;
+      position: absolute;
+    }
+
+    button {
+      width: 130px;
+      height: 50px;
+      line-height: 21px;
+      text-transform: capitalize;
+      color: white;
+      opacity: 0.8;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      vertical-align: middle;
+      display: block;
+      margin-top: 2px;
+      background: #1caad9;
+    }
+
+    button:hover {opacity: 1;}
+    button:active {font-weight: bold;}
+    #keyA {width: 64px; display: inline;}
+    #keyB {width: 63px; display: inline;}
+    #keyE {height: 30px;}
+    #keyC {width: 64px; display: inline;}
+    #keyD {width: 63px; display: inline;}
+
+  </style>
+</body>
