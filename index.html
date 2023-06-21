@@ -15,6 +15,7 @@
   <div class="buttons">
     <button id="keyA">Torre</button>
     <button id="keyB">Erosion</button>
+    <img id="colorscale" src="https://riccardorocca.github.io/torre-de-cerrillos/colorscale.png"></img>
     <button id="keyC">Paisaje</button>
     <button id="keyD">Escala</button>
     <button id="keyE">Brujula</button>
@@ -87,11 +88,13 @@
                   case "Erosion":
                     buttonB.innerHTML = " Erosion ";
                     buttonB.style.backgroundColor = "#888888";
+                    document.getElementById("colorscale").style.display = "none";
                     api.hide(node_barrel);
                     break;
                   case " Erosion ":
                     buttonB.innerHTML = "Erosion";
                     buttonB.style.backgroundColor = "#1caad9";
+                    document.getElementById("colorscale").style.display = "block";
                     api.show(node_barrel);
                     break;
                 }
