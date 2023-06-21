@@ -17,17 +17,19 @@
     <button id="keyB">Erosion</button>
     <button id="keyC">Paisaje</button>
     <button id="keyD">Escala</button>
+    <button id="keyE">Brujula</button>
   </div>
 
   <!-- Your new script -->
   <script>
-    var model = 'f3f5b0fc730f4d01800f92078ba7b694',
+    var model = '329646f4e4514839a7cf5118b6a1c001',
 
     // Buttons
     buttonA = document.getElementById( 'keyA' ),
     buttonB = document.getElementById( 'keyB' ),
     buttonC = document.getElementById( 'keyC' ),
     buttonD = document.getElementById( 'keyD' ),
+    buttonE = document.getElementById( 'keyE' ),
 
     // Variables
     version = '1.7.1',
@@ -48,12 +50,15 @@
             for ( var prop in nodes ) {
               if ( nodes.hasOwnProperty( prop ) ) {
                 //alert(nodes[prop].instanceID+" : "+nodes[prop].name+" : "+nodes[prop].nodeMask+" : "+nodes[prop].type+" : "+nodes[prop].localMatrix+" ; "+nodes[prop].worldMatrix);
-                if      ( nodes[ prop ].name === "tower" )                 { var node_tower = nodes[prop].instanceID; }
-                else if ( nodes[ prop ].name === "tower_land" )            { var node_tower_land = nodes[prop].instanceID; }
-                else if ( nodes[ prop ].name === "barrel_grid_decimate" )  { var node_barrel = nodes[prop].instanceID; }
-                else if ( nodes[ prop ].name === "landscape" )             { var node_landscape = nodes[prop].instanceID; }
-                else if ( nodes[ prop ].name === "zscale" )                { var node_zscale = nodes[prop].instanceID; }
-                else if ( nodes[ prop ].name === "zscale_text" )           { var node_zscale_text = nodes[prop].instanceID; }
+                if      ( nodes[ prop ].name === "tower" )          { var node_tower = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "tower_land" )     { var node_tower_land = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "barrel" )         { var node_barrel = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "landscape" )      { var node_landscape = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "zscale" )         { var node_zscale = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "zscale_text" )    { var node_zscale_text = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "compass" )        { var node_compass = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "compass_text1" )  { var node_compass_text1 = nodes[prop].instanceID; }
+                else if ( nodes[ prop ].name === "compass_text2" )  { var node_compass_text2 = nodes[prop].instanceID; }
               }
             }
 
@@ -110,7 +115,6 @@
               });
             }
 
-
             if (node_zscale & node_zscale_text) {
               buttonD.addEventListener( 'click', function() {
                 switch(buttonD.innerHTML) {
@@ -125,6 +129,27 @@
                     buttonD.style.backgroundColor = "#1caad9";
                     api.show(node_zscale);
                     api.show(node_zscale_text);
+                    break;
+                }
+              });
+            }
+
+            if (node_compass & node_compass_text1 & node_compass_text2) {
+              buttonE.addEventListener( 'click', function() {
+                switch(buttonE.innerHTML) {
+                  case "Brujula":
+                    buttonE.innerHTML = " Brujula ";
+                    buttonE.style.backgroundColor = "#888888";
+                    api.hide(node_compass);
+                    api.hide(node_compass_text1);
+                    api.hide(node_compass_text2);
+                    break;
+                  case " Brujula ":
+                    buttonE.innerHTML = "Brujula";
+                    buttonE.style.backgroundColor = "#1caad9";
+                    api.show(node_compass);
+                    api.show(node_compass_text1);
+                    api.show(node_compass_text2);
                     break;
                 }
               });
@@ -194,11 +219,7 @@
 
     button:hover {opacity: 1;}
     button:active {font-weight: bold;}
-    #keyA {width: 64px; display: inline;}
-    #keyB {width: 63px; display: inline;}
-    #keyE {height: 30px;}
-    #keyC {width: 64px; display: inline;}
-    #keyD {width: 63px; display: inline;}
+
 
   </style>
 </body>
